@@ -29,3 +29,4 @@ $ fis3 server start
 $ fis3 release prod -d /path/of/your/j2ee/app
 ```
 
+更多信息请访问：https://github.com/fex-team/fis3-jello
