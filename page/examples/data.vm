@@ -1,0 +1,70 @@
+#extends("/page/layout/2columns-with-left-sidebar.vm")
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(1).children")
+#end
+
+#block("content")
+
+<p>Js 数据来源，主要有两种</p>
+<ul>
+    <li>来源于模板变量</li>
+    <li>来源于异步 ajax 请求</li>
+</ul>
+
+<p>关于数据模拟，请查看<a href="$!{request.contextPath}doc/binding">此处文档说明</a></p>
+
+<h2>示例</h2>
+
+
+<div class="bs-callout bs-callout-info">
+    <h4>页面模板数据</h4>
+    <p>
+        <button id="fromVm" class="btn btn-info">显示模板数据</button>
+    </p>
+</div>
+
+<div class="bs-callout bs-callout-success">
+    <h4>ajax 异步数据 - 通过 json 文件模拟</h4>
+    <p>
+        <button id="fromJson" data-loading-text="加载中。。。" class="btn btn-success">显示异步数据</button>
+    </p>
+</div>
+
+<div class="bs-callout bs-callout-success">
+    <h4>ajax 异步数据 - 通过 jsp 文件模拟</h4>
+    <p>
+        <button id="fromJsp" data-loading-text="加载中。。。" class="btn btn-success">显示异步数据</button>
+    </p>
+</div>
+
+
+#script()
+require(['./data'], function(app) {
+    app({
+        vm: {
+            btn: '#fromVm',
+
+            // \$user 变量数据来源与 /test/page/examples/data.json 模拟。
+            data: $jello.jsonEncode($user)
+        },
+
+        json: {
+            btn: '#fromJson',
+            remote: '$!{request.contextPath}/json'
+        },
+
+        jsp: {
+            btn: '#fromJsp',
+            remote: '$!{request.contextPath}/jspdata'
+        }
+    });
+});
+#end
+
+
+#end## end of body
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./data.vm")
+#end

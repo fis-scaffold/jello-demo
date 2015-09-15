@@ -1,0 +1,25 @@
+#if ($menus)
+
+    ## velocity 宏示例
+    #macro( renderMenus $menus)
+        <ul class="nav" role="menu">
+
+        #foreach( $menu in $menus )
+            <li #if( $menu.active )class="active"#end>
+                <a href="$!{request.contextPath}$!{menu.href}">$!{menu.label}</a>
+
+                #if( $menu.children )
+                #renderMenus($menu.children)
+                #end
+            </li>
+        #end
+
+        </ul>
+    #end
+
+    <div class="jello-toc">#renderMenus($menus)</div>
+
+    #script()
+    require(['./sidebarmenus']);
+    #end
+#end

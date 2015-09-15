@@ -1,0 +1,312 @@
+#set($pageTitle="velocity tools")
+#set($title="velocity tools")
+
+#extends("/page/layout/2columns-with-left-sidebar.vm")
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(3).children")
+#end
+
+#block("content")
+
+<p><a href="http://velocity.apache.org/tools/devel/">velocity tools</a>是 <a href="http://velocity.apache.org/">velocity</a> 官方开发一系列帮助开发的工具集，jello 中默认集成了所有的 <a href="http://velocity.apache.org/tools/devel/generic.html">GenericTools</a> </p>
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/AlternatorTool.html">AlternatorTool</a></h2>
+<p>更方便的操作列表（LIST），支持 auto 和 manual两种方式，输入：可遍历的对象，输出：该 List 的迭代器。如果是自动模式，该迭代器在输出完后会自动进入一个元素。</p>
+<p>示例</p>
+<div class="highlight highlight-velocity"><pre><span class="cp">##</span><span class="c"> 自动模式</span><span class="x"></span>
+    <span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">color</span> <span class="o">=</span> <span class="p">$</span><span class="nv">alternator</span><span class="p">.</span><span class="nv">auto</span><span class="p">(</span><span class="s1">'red'</span><span class="p">,</span> <span class="s1">'blue'</span><span class="p">)</span> <span class="p">)</span><span class="x"></span>
+    <span class="cp">##</span><span class="c"> 手动模式</span><span class="x"></span>
+    <span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">style</span> <span class="o">=</span> <span class="p">$</span><span class="nv">alternator</span><span class="p">.</span><span class="nv">manual</span><span class="p">(</span><span class="s1">'hip'</span><span class="p">,</span><span class="s1">'fly'</span><span class="p">,</span><span class="s1">'groovy'</span><span class="p">)</span> <span class="p">)</span><span class="x"></span>
+    <span class="cp">##</span><span class="c"> $color 会每次自动进入下一个，而 $style 则需要手动调用 next</span><span class="x"></span>
+    <span class="cp">#</span><span class="nf">foreach</span><span class="p">(</span> <span class="p">$</span><span class="nv">i</span> <span class="o">in</span> <span class="o">[</span><span class="m">1</span><span class="o">..</span><span class="m">5</span><span class="p">]</span> <span class="p">)</span><span class="x"></span>
+    <span class="x">   Number </span><span class="p">$</span><span class="nv">i</span><span class="x"> is </span><span class="p">$</span><span class="nv">color</span><span class="x"> and </span><span class="p">$</span><span class="nv">style</span><span class="x">. I dig </span><span class="p">$</span><span class="nv">style</span><span class="p">.</span><span class="nv">next</span><span class="x"> numbers.</span>
+    <span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+</pre></div>
+<p>输出</p>
+<pre><code>Number 1 is red and hip. I dig hip numbers.
+Number 2 is blue and fly. I dig fly numbers.
+Number 3 is red and groovy. I dig groovy numbers.
+Number 4 is blue and hip. I dig hip numbers.
+Number 5 is red and fly. I dig fly numbers.
+</code></pre>
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/AlternatorTool.html">查看更多</a></p>
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/DisplayTool.html">DisplayTool</a></h2>
+<p>显示类工具，用来更好的显示数据，如：“优美”的输出数组或集合、截断文字长度、或者对 null 数据通其他文字替代。。。</p>
+<div class="highlight highlight-velocity"><pre><span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">list</span> <span class="o">=</span> <span class="o">[</span><span class="m">1</span><span class="o">..</span><span class="m">5</span><span class="p">]</span> <span class="p">)</span><span class="x"></span>
+    <span class="p">$</span><span class="nv">display</span><span class="p">.</span><span class="nv">list</span><span class="p">($</span><span class="nv">list</span><span class="p">)</span><span class="x"></span>
+    <span class="p">$</span><span class="nv">display</span><span class="p">.</span><span class="nv">truncate</span><span class="p">(</span><span class="s2">"This is a long string."</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span><span class="x"></span>
+    <span class="x">Not Null: </span><span class="p">$</span><span class="nv">display</span><span class="p">.</span><span class="nv">a
+<span class="x">Null: </span><span class="p">$</span><span class="nv">display</span><span class="p">.</span><span class="nv">alt</span><span class="p">($</span><span class="nv">null</span><span class="p">,</span> <span class="s2">"--"</span><span class="p">)</span><span class="x"></span>
+</pre></div>
+
+<p>输出</p>
+
+<div class="highlight highlight-velocity"><pre><span class="x">1, 2, 3, 4 and 5</span>
+<span class="x">This is...</span>
+<span class="x">Not Null: not null</span>
+<span class="x">Null: --</span>
+</pre></div>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/DisplayTool.html">查看更多</a></p>
+
+<h2><a href="https://velocity.apache.org/tools/releases/2.0/javadoc/org/apache/velocity/tools/generic/MathTool.html">MathTool</a></h2>
+
+<p>一系列数学操作的工具，比起直接用 velocity 语句方便多了。</p>
+
+<p><a href="https://velocity.apache.org/tools/releases/2.0/javadoc/org/apache/velocity/tools/generic/MathTool.html">查看更多</a></p>
+
+
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/NumberTool.html">NumberTool</a></h2>
+
+<p>一系列数字操作的工具，可以用来格式化输出数字。</p>
+
+<div class="highlight highlight-velocity"><pre><span class="p">$</span><span class="nv">myNumber</span><span class="x">                   -&gt; 13.55</span>
+<span class="p">$</span><span class="nv">number</span><span class="p">.</span><span class="nv">format</span><span class="p">($</span><span class="nv">myNumber</span><span class="p">)</span><span class="x">   -&gt; 13.6</span>
+<span class="p">$</span><span class="nv">number</span><span class="p">.</span><span class="nv">currency</span><span class="p">($</span><span class="nv">myNumber</span><span class="p">)</span><span class="x"> -&gt; </span><span class="p">$</span><span class="x">13.55</span>
+<span class="p">$</span><span class="nv">number</span><span class="p">.</span><span class="nv">integer</span><span class="p">($</span><span class="nv">myNumber</span><span class="p">)</span><span class="x">  -&gt; 13</span>
+</pre></div>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/NumberTool.html">查看更多</a></p>
+
+<h2><a href="http://velocity.apache.org/tools/releases/1.4/javadoc/org/apache/velocity/tools/generic/ComparisonDateTool.html">ComparisonDateTool</a></h2>
+
+<p>一系列日期相关操作的工具，可以用来解析日期，格式化日期，和比较日期。</p>
+
+<div class="highlight highlight-velocity"><pre><span class="x">Example of formatting the "current" date:</span>
+<span class="x">  </span><span class="p">$</span><span class="nv">date</span><span class="x">                         -&gt; Oct 19, 2003 9:54:50 PM</span>
+<span class="x">  </span><span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">long</span><span class="x">                    -&gt; October 19, 2003 9:54:50 PM PDT</span>
+<span class="x">  </span><span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">medium_time</span><span class="x">             -&gt; 9:54:50 PM</span>
+<span class="x">  </span><span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">full_date</span><span class="x">               -&gt; Sunday, October 19, 2003</span>
+<span class="x">  </span><span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">get</span><span class="p">(</span><span class="s1">'default'</span><span class="p">,</span><span class="s1">'short'</span><span class="p">)</span><span class="x">  -&gt; Oct 19, 2003 9:54 PM</span>
+<span class="x">  </span><span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">get</span><span class="p">(</span><span class="s1">'yyyy-M-d H:m:s'</span><span class="p">)</span><span class="x">   -&gt; 2003-10-19 21:54:50</span>
+
+<span class="x"> Example of formatting an arbitrary date:</span>
+<span class="x">  </span><span class="p">$</span><span class="nv">myDate</span><span class="x">                        -&gt; Tue Oct 07 03:14:50 PDT 2003</span>
+<span class="x">  </span><span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">format</span><span class="p">(</span><span class="s1">'medium'</span><span class="p">,$</span><span class="nv">myDate</span><span class="p">)</span><span class="x"> -&gt; Oct 7, 2003 3:14:50 AM</span>
+</pre></div>
+
+<div class="highlight highlight-velocity"><pre><span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">whenIs</span><span class="p">(</span><span class="s1">'2005-07-04'</span><span class="p">)</span><span class="x">                -&gt; 1 year ago</span>
+<span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">whenIs</span><span class="p">(</span><span class="s1">'2007-02-15'</span><span class="p">).</span><span class="nv">full</span><span class="x">           -&gt; 1 year 32 weeks 2 days 17 hours 38 minutes 44 seconds 178 milliseconds ago</span>
+<span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">whenIs</span><span class="p">(</span><span class="s1">'2007-02-15'</span><span class="p">).</span><span class="nv">days</span><span class="x">           -&gt; -730</span>
+<span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">whenIs</span><span class="p">($</span><span class="nv">date</span><span class="p">.</span><span class="nv">calendar</span><span class="p">)</span><span class="x">              -&gt; now</span>
+<span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">whenIs</span><span class="p">(</span><span class="s1">'2005-07-04'</span><span class="p">,</span> <span class="s1">'2005-07-04'</span><span class="p">)</span><span class="x">  -&gt; same time</span>
+<span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">difference</span><span class="p">(</span><span class="s1">'2005-07-04'</span><span class="p">,</span><span class="s1">'2005-07-04'</span><span class="p">)</span><span class="x">      -&gt; 0 milliseconds</span>
+<span class="p">$</span><span class="nv">date</span><span class="p">.</span><span class="nv">difference</span><span class="p">(</span><span class="s1">'2005-07-04'</span><span class="p">,</span><span class="s1">'2007-02-15'</span><span class="p">).</span><span class="nv">abbr</span><span class="x"> -&gt; 1 yr</span>
+</pre></div>
+
+<p><a href="http://velocity.apache.org/tools/releases/1.4/javadoc/org/apache/velocity/tools/generic/ComparisonDateTool.html">查看更多</a></p>
+
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/ClassTool.html">ClassTool</a></h2>
+
+<p>Java 反射类相关的工具，用来方便文档的编写，一般很少用到。</p>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/ClassTool.html">查看更多</a></p>
+
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/ConversionTool.html">ConversionTool</a></h2>
+
+<p>可以用来把字符串装换成其他类型。</p>
+
+<div class="highlight highlight-velocity"><pre><span class="p">$</span><span class="nv">convert</span><span class="p">.</span><span class="nv">toNumber</span><span class="p">(</span><span class="s1">'12.6'</span><span class="p">)</span><span class="x">   -&gt;  12.6</span>
+<span class="p">$</span><span class="nv">convert</span><span class="p">.</span><span class="nv">toInt</span><span class="p">(</span><span class="s1">'12.6'</span><span class="p">)</span><span class="x">      -&gt;  12</span>
+<span class="p">$</span><span class="nv">convert</span><span class="p">.</span><span class="nv">toNumbers</span><span class="p">(</span><span class="s1">'12.6,42'</span><span class="p">)</span><span class="x">  -&gt;  [12.6, 42]</span>
+</pre></div>
+
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/ConversionTool.html">查看更多</a></p>
+
+<h2><a href="https://velocity.apache.org/tools/releases/2.0/javadoc/org/apache/velocity/tools/generic/EscapeTool.html">EscapeTool</a></h2>
+
+<p>用来转义输出 Velocity、 Java、 JavaScript、 HTML、 HTTP、 XML 和 SQL 格式的字符串</p>
+
+<div class="highlight highlight-velocity"><pre><span class="p">$</span><span class="nv">velocity</span><span class="x">                    -&gt; Please escape </span><span class="p">$</span><span class="x"> and </span><span class="err">#</span><span class="x">!</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">velocity</span><span class="p">($</span><span class="nv">velocity</span><span class="p">)</span><span class="x">     -&gt; Please escape </span><span class="p">${</span><span class="nv">esc</span><span class="p">.</span><span class="nv">d</span><span class="p">}</span><span class="x"> and </span><span class="p">${</span><span class="nv">esc</span><span class="p">.</span><span class="nv">h</span><span class="p">}</span><span class="x">!</span>
+
+<span class="p">$</span><span class="nv">java</span><span class="x">                        -&gt; He didn't say, "Stop!"</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">java</span><span class="p">($</span><span class="nv">java</span><span class="p">)</span><span class="x">             -&gt; He didn't say, \"Stop!\"</span>
+
+<span class="p">$</span><span class="nv">javascript</span><span class="x">                  -&gt; He didn't say, "Stop!"</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">javascript</span><span class="p">($</span><span class="nv">javascript</span><span class="p">)</span><span class="x"> -&gt; He didn\'t say, \"Stop!\"</span>
+
+<span class="p">$</span><span class="nv">html</span><span class="x">                        -&gt; "bread" &amp; "butter"</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">html</span><span class="p">($</span><span class="nv">html</span><span class="p">)</span><span class="x">             -&gt; &amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</span>
+
+<span class="p">$</span><span class="nv">xml</span><span class="x">                         -&gt; "bread" &amp; "butter"</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">xml</span><span class="p">($</span><span class="nv">xml</span><span class="p">)</span><span class="x">               -&gt; &amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</span>
+
+<span class="p">$</span><span class="nv">sql</span><span class="x">                         -&gt; McHale's Navy</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">sql</span><span class="p">($</span><span class="nv">sql</span><span class="p">)</span><span class="x">               -&gt; McHale''s Navy</span>
+
+<span class="p">$</span><span class="nv">url</span><span class="x">                         -&gt; hello here &amp; there</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">url</span><span class="x">                     -&gt; hello+here+%26+there</span>
+
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">dollar</span><span class="x">                  -&gt; </span><span class="p">$</span><span class="x"></span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">d</span><span class="x">                       -&gt; </span><span class="p">$</span><span class="x"></span>
+
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">hash</span><span class="x">                    -&gt; </span><span class="err">#</span><span class="x"></span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">h</span><span class="x">                       -&gt; </span><span class="err">#</span><span class="x"></span>
+
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">backslash</span><span class="x">               -&gt; \</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">b</span><span class="x">                       -&gt; \</span>
+
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">quote</span><span class="x">                   -&gt; "</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">q</span><span class="x">                       -&gt; "</span>
+
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">singleQuote</span><span class="x">             -&gt; '</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">s</span><span class="x">                       -&gt; '</span>
+
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">newline</span><span class="x">                 -&gt; </span>
+
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">n</span><span class="x">                       -&gt; </span>
+
+
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">exclamation</span><span class="x">             -&gt; !</span>
+<span class="p">$</span><span class="nv">esc</span><span class="p">.</span><span class="nv">e</span><span class="x">                       -&gt; !</span>
+</pre></div>
+
+<p><a href="https://velocity.apache.org/tools/releases/2.0/javadoc/org/apache/velocity/tools/generic/EscapeTool.html">查看更多</a></p>
+
+
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/FieldTool.html">FieldTool</a></h2>
+
+<p>提供一种可以访问到类静态属性的方法</p>
+
+<div class="highlight highlight-velocity"><pre><span class="cp">##</span><span class="c"> here we access a constant in a class include in the configuration</span><span class="x"></span>
+<span class="x">  </span><span class="p">$</span><span class="nv">field</span><span class="p">.</span><span class="nv">COUNTER_NAME</span><span class="x"></span>
+
+<span class="cp">##</span><span class="c"> here we dynamically lookup a class' fields to find another constant</span><span class="x"></span>
+<span class="x">  </span><span class="p">$</span><span class="nv">field</span><span class="p">.</span><span class="nv">in</span><span class="p">(</span><span class="s2">"org.com.SomeClass"</span><span class="p">).</span><span class="nv">ANOTHER_CONSTANT</span><span class="x"></span>
+
+<span class="cp">##</span><span class="c"> here we pass an object instance in (an Integer in this case) and</span><span class="x"></span>
+<span class="cp">##</span><span class="c"> retrieve a static constant from that instance's class</span><span class="x"></span>
+<span class="x">  </span><span class="p">$</span><span class="nv">field</span><span class="p">.</span><span class="nv">in</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="nv">MIN_VALUE</span><span class="x"></span>
+
+<span class="cp">##</span><span class="c"> by default, once we've searched a class' fields, those fields stay</span><span class="x"></span>
+<span class="cp">##</span><span class="c"> available in the tool (change this by storeDynamicLookups="false")</span><span class="x"></span>
+<span class="cp">##</span><span class="c"> so here we get another constant from the Integer class</span><span class="x"></span>
+<span class="x">  </span><span class="p">$</span><span class="nv">field</span><span class="p">.</span><span class="nv">MAX_VALUE</span><span class="x"></span>
+</pre></div>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/FieldTool.html">查看更多</a></p>
+
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/ListTool.html">ListTool</a></h2>
+
+<p>提供一种操作列表（Collection）的工具，可以用来检测列表是否为空、是否含有某个值、获取某个成员、设置某个位置的值等等。</p>
+
+<div class="highlight highlight-velocity"><pre><span class="p">$</span><span class="nv">primes</span><span class="x">                    -&gt; new int[] </span><span class="err">{</span><span class="x">2, 3, 5, 7}</span>
+<span class="p">$</span><span class="nv">lists</span><span class="p">.</span><span class="nv">size</span><span class="p">($</span><span class="nv">primes</span><span class="p">)</span><span class="x">        -&gt; 4</span>
+<span class="p">$</span><span class="nv">lists</span><span class="p">.</span><span class="nv">get</span><span class="p">($</span><span class="nv">primes</span><span class="p">,</span> <span class="m">2</span><span class="p">)</span><span class="x">      -&gt; 5</span>
+<span class="p">$</span><span class="nv">lists</span><span class="p">.</span><span class="nv">set</span><span class="p">($</span><span class="nv">primes</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span><span class="x">   -&gt; (primes[2] becomes 1)</span>
+<span class="p">$</span><span class="nv">lists</span><span class="p">.</span><span class="nv">get</span><span class="p">($</span><span class="nv">primes</span><span class="p">,</span> <span class="m">2</span><span class="p">)</span><span class="x">      -&gt; 1</span>
+<span class="p">$</span><span class="nv">lists</span><span class="p">.</span><span class="nv">isEmpty</span><span class="p">($</span><span class="nv">primes</span><span class="p">)</span><span class="x">     -&gt; false</span>
+<span class="p">$</span><span class="nv">lists</span><span class="p">.</span><span class="nv">contains</span><span class="p">($</span><span class="nv">primes</span><span class="p">,</span> <span class="m">7</span><span class="p">)</span><span class="x"> -&gt; true</span>
+</pre></div>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/ListTool.html">查看更多</a></p>
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/ResourceTool.html">ResourceTool</a></h2>
+
+<p>只知道是跟  i18n 多语言相关的，其他的没看懂。</p>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/ResourceTool.html">查看更多</a></p>
+
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/SortTool.html">SortTool</a></h2>
+
+<p>针对集合（Collection）进行排序操作，支持任何可以被 <code>\#foreach()</code>操作的对象。</p>
+
+<div class="highlight highlight-velocity"><pre><span class="x"> Single Property Sort</span>
+<span class="x"> </span><span class="cp">#</span><span class="nf">foreach</span><span class="p">($</span><span class="nv">obj</span> <span class="o">in</span> <span class="p">$</span><span class="nv">sorter</span><span class="p">.</span><span class="nv">sort</span><span class="p">($</span><span class="nv">objects</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">))</span><span class="x"></span>
+<span class="x">   </span><span class="p">$</span><span class="nv">obj</span><span class="p">.</span><span class="nv">name</span><span class="x"> Ordinal= </span><span class="p">$</span><span class="nv">obj</span><span class="p">.</span><span class="nv">ordinal</span><span class="x"></span>
+<span class="x"> </span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+<span class="x"> End</span>
+
+<span class="x"> Multiple Property Sort</span>
+<span class="x"> </span><span class="cp">#</span><span class="nf">foreach</span><span class="p">($</span><span class="nv">obj</span> <span class="o">in</span> <span class="p">$</span><span class="nv">sorter</span><span class="p">.</span><span class="nv">sort</span><span class="p">($</span><span class="nv">objects</span><span class="p">,</span> <span class="p">[</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"ordinal"</span><span class="p">]))</span><span class="x"></span>
+<span class="x">   </span><span class="p">$</span><span class="nv">obj</span><span class="p">.</span><span class="nv">name</span><span class="x">, </span><span class="p">$</span><span class="nv">obj</span><span class="p">.</span><span class="nv">ordinal</span><span class="x"></span>
+<span class="x"> </span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+<span class="x"> End</span>
+</pre></div>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/SortTool.html">查看更多</a></p>
+
+
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/LoopTool.html">LoopTool</a></h2>
+
+<p>A convenience tool to use with \#foreach loops. It wraps a list with a custom iterator to provide additional controls and feedback for managing loops.</p>
+
+<div class="highlight highlight-velocity"><pre><span class="x"> Template</span>
+<span class="x">  ---</span>
+<span class="x">  </span><span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">list</span> <span class="o">=</span> <span class="o">[</span><span class="m">1</span><span class="o">..</span><span class="m">7</span><span class="p">]</span> <span class="p">)</span><span class="x"></span>
+<span class="x">  </span><span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">others</span> <span class="o">=</span> <span class="o">[</span><span class="m">3</span><span class="o">..</span><span class="m">10</span><span class="p">]</span> <span class="p">)</span><span class="x"></span>
+<span class="x">  </span><span class="cp">#</span><span class="nf">foreach</span><span class="p">(</span> <span class="p">$</span><span class="nv">item</span> <span class="o">in</span> <span class="p">$</span><span class="nv">loop</span><span class="p">.</span><span class="nv">watch</span><span class="p">($</span><span class="nv">list</span><span class="p">).</span><span class="nv">sync</span><span class="p">($</span><span class="nv">others</span><span class="p">,</span> <span class="s1">'other'</span><span class="p">)</span> <span class="p">)</span><span class="x"></span>
+<span class="x">  </span><span class="p">$</span><span class="nv">item</span><span class="x"> -&gt; </span><span class="p">$</span><span class="nv">loop</span><span class="p">.</span><span class="nv">other</span><span class="x"></span>
+<span class="x">  </span><span class="cp">#</span><span class="nf">if</span><span class="p">(</span> <span class="p">$</span><span class="nv">item</span> <span class="o">&gt;=</span> <span class="m">5</span> <span class="p">)$</span><span class="nv">loop</span><span class="p">.</span><span class="nv">stop</span><span class="p">()</span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+<span class="x">  </span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+
+<span class="x">  Output</span>
+<span class="x">  ------</span>
+<span class="x">  1 -&gt; 3</span>
+<span class="x">  2 -&gt; 4</span>
+<span class="x">  3 -&gt; 5</span>
+<span class="x">  4 -&gt; 6</span>
+<span class="x">  5 -&gt; 7</span>
+</pre></div>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/LoopTool.html">查看更多</a></p>
+
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/ContextTool.html">ContextTool</a></h2>
+
+<p>提供一种可以访问 context 的方法，通过他知道有哪些变量可以使用。</p>
+
+<div class="highlight highlight-velocity"><pre><span class="x"> </span><span class="cp">#</span><span class="nf">foreach</span><span class="p">(</span> <span class="p">$</span><span class="nv">key</span> <span class="o">in</span> <span class="p">$</span><span class="nv">context</span><span class="p">.</span><span class="nv">keys</span> <span class="p">)</span><span class="x"></span>
+<span class="x">    </span><span class="p">$</span><span class="nv">key</span><span class="x"> = </span><span class="p">$</span><span class="nv">context</span><span class="p">.</span><span class="nv">get</span><span class="p">($</span><span class="nv">key</span><span class="p">)</span><span class="x"></span>
+<span class="x">  </span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+</pre></div>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/ContextTool.html">查看更多</a></p>
+
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/LinkTool.html">LinkTool</a></h2>
+
+<p>相当重要的一个工具，用来操作链接相关的工具，比如如果要生成 pagination 分页的连接，分页参数是 pageSize = xxx; 因为有可能 url 中一几个有这个参数了，或者有条件搜索，还有其他用来过滤的参数，所以得保证生成的分页链接时，这些参数不能丢失。如果不用这个工具，实现起来非常麻烦，但是用它会特别方便。如下：</p>
+
+<div class="highlight highlight-velocity"><pre><span class="cp">#</span><span class="nf">set</span><span class="p">($</span><span class="nv">base</span> <span class="o">=</span> <span class="p">$</span><span class="nv">link</span><span class="p">.</span><span class="nv">query</span><span class="p">($</span><span class="nv">request</span><span class="p">.</span><span class="nv">getQueryString</span><span class="p">()))</span><span class="x"></span>
+
+<span class="x">&lt;a href="</span><span class="p">$</span><span class="x">!</span><span class="err">{</span><span class="x">request.contextPath}</span><span class="p">$</span><span class="nv">base</span><span class="p">.</span><span class="nv">set</span><span class="p">(</span><span class="s1">'pageNum'</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span><span class="x">"&gt;第一页&lt;/a&gt;</span>
+</pre></div>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/LinkTool.html">查看更多</a></p>
+
+<h2><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/RenderTool.html">RenderTool</a></h2>
+
+<p>通过它可以把字符串当成 velocity 语句解析。</p>
+
+<div class="highlight highlight-velocity"><pre><span class="x"> Example of eval():</span>
+<span class="x">      Input</span>
+<span class="x">      -----</span>
+<span class="x">      </span><span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">list</span> <span class="o">=</span> <span class="o">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="p">)</span><span class="x"></span>
+<span class="x">      </span><span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">object</span> <span class="o">=</span> <span class="s1">'$list'</span> <span class="p">)</span><span class="x"></span>
+<span class="x">      </span><span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">method</span> <span class="o">=</span> <span class="s1">'size()'</span> <span class="p">)</span><span class="x"></span>
+<span class="x">      </span><span class="p">$</span><span class="nv">render</span><span class="p">.</span><span class="nv">eval</span><span class="p">(</span><span class="s2">"${object}.$method"</span><span class="p">)</span><span class="x"></span>
+
+<span class="x">      Output</span>
+<span class="x">      ------</span>
+<span class="x">      3</span>
+
+<span class="x"> Example of recurse():</span>
+<span class="x">      Input</span>
+<span class="x">      -----</span>
+<span class="x">      </span><span class="cp">#</span><span class="nf">macro</span><span class="p">(</span> <span class="nf">say_hi</span> <span class="p">)</span><span class="x">hello world!</span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+<span class="x">      </span><span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">foo</span> <span class="o">=</span> <span class="s1">'#say_hi()'</span> <span class="p">)</span><span class="x"></span>
+<span class="x">      </span><span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">bar</span> <span class="o">=</span> <span class="s1">'$foo'</span> <span class="p">)</span><span class="x"></span>
+<span class="x">      </span><span class="p">$</span><span class="nv">render</span><span class="p">.</span><span class="nv">recurse</span><span class="p">($</span><span class="nv">bar</span><span class="p">)</span><span class="x"></span>
+
+<span class="x">      Output</span>
+<span class="x">      ------</span>
+<span class="x">      hello world!</span>
+</pre></div>
+
+<p><a href="https://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/generic/RenderTool.html">查看更多</a></p>
+
+#end## end of body
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./tools.vm")
+#end

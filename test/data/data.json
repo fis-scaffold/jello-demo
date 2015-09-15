@@ -1,0 +1,10 @@
+{
+    "code": 0,
+    "message": "成功",
+    "data": {
+        "username": "admin",
+        "role": "admin",
+        "nickname": "诸多借口",
+        "description": "这是静态数据，写死的不会变"
+    }
+}

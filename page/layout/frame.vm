@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+#html("/static/js/require.js")
+
+    #head()
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>$title #if( $titleAffix ) - $titleAffix#end</title>
+        <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        #require("/static/scss/normalize.css")
+        #require("bootstrap/css/bootstrap.css")
+        #require("bootstrap/css/bootstrap-theme.css")
+        #require("/static/scss/global.scss")
+    #end## end head
+
+    #body()
+        <div id="wrapper">
+            ## 定义一个区域
+            #block("body")#end
+        </div>
+        <!--livereload-->
+    #end## end of body
+
+    #script()
+    // 启用 bootstrap
+    require(['bootstrap']);
+    #end
+
+    ## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+    #require("./frame.vm")
+#end## end of html

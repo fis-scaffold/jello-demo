@@ -1,0 +1,49 @@
+#set($pageTitle="Widget")
+#set($title="Widget")
+
+#extends("/page/layout/2columns-with-left-sidebar.vm")
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(0).children")
+#end
+
+#block("content")
+    <p>页面中比较常用的小的部分，可以抽离成<a href="$!{request.contextPath}/doc/widget">widget</a>，比如：登陆框、头部菜单、边栏菜单等等</p>
+
+    <p>抽离成小模板后，可以通过这样的方式引入页面的任意位置。</p>
+
+    <div class="highlight highlight-velocity">
+        <pre>\#widget("widget/sidebarmenus/sidebarmenus.vm")</pre>
+    </div>
+
+    <h2 id="局部变量">局部变量</h2>
+
+    <p>除了模板复用外，有时候变量也需要复用，在通过 <code>\#widget()</code> 引入模板的时候，可以通过以下两种方式指定变量</p>
+
+    <ul>
+        <li><code>with</code> 将指定变量下面的所有属性做为 widget 中的局部变量使用</li>
+        <li><code>var</code> 设置 widget 中局部变量</li>
+    </ul>
+
+    <div class="highlight highlight-velocity"><pre><span class="cp">#</span><span class="nf">widget</span><span class="p">(</span><span class="s2">"widget/sidebarmenus/sidebarmenus.vm"</span> <span class="s2">"with:${esc.d}sidebar"</span> <span class="s2">"var:literal=字面量"</span> <span class="s2">"var:variable=${esc.d}sidebar"</span><span class="p">)</span><span class="x"></span>
+</pre></div>
+
+    <div class="bs-callout bs-callout-warning">
+        <h4>注意</h4>
+        <p>对于复杂的数据格式，通过<code>var</code>可能不能直接创建，但是可以先借助<code>\#set()</code>先设置后，然后再设置给<code>var</code></p>
+
+        <div class="highlight highlight-velocity"><pre><span class="cp">#</span><span class="nf">set</span><span class="p">($</span><span class="nv">numbers</span> <span class="o">=</span> <span class="o">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">])</span><span class="x">;</span>
+
+<span class="cp">${esc.h}${esc.h}</span><span class="c"> 这样在 sidebarmenus.vm 模板里面，就可以使用 list 变量，而这个变量的值为数组 [1, 2, 3]</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">widget</span><span class="p">(</span><span class="s2">"widget/sidebarmenus/sidebarmenus.vm"</span> <span class="s2">"var:list=${esc.d}numbers"</span><span class="p">)</span><span class="x"></span>
+</pre></div>
+    </div>
+
+    <h2 id="复杂用法">复杂用法</h2>
+    <p>有时候 widget 是有填充需求的，实际上widget中也可以定义区块<code>\#block()</code>, 引用的时候使用<code>\#extends()</code>替代<code>\#widget()</code>，效果相同，但是具备划分区域，使用者具有填充功能。</p>
+#end
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./widget.vm")
+
+#end

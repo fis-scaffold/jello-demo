@@ -1,0 +1,24 @@
+#set($pageTitle="jello tools")
+#extends("/page/layout/2columns-with-left-sidebar.vm")
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(3).children")
+#end
+
+#block("content")
+
+<p>velocity tools 虽然多，但是好像少了一些东西，比如说将 java 对象转换成 json 给 js 使用。</p>
+
+<p>jello tools 就是用来弥补 velocity tools 中缺失的东西。目前只有实现了 <code>\$jello.jsonEncode(\$variable)</code>，即：把 java 对象转换成 json。<a href="$!{request.contextPath}/examples/data">demo</a></p>
+
+<div class="bs-callout bs-callout-warning">
+    <h4>提交需求？</h4>
+    <p>请在<a href="https://github.com/fex-team/jello/issues/new" target="_blank">此页面</a>提交</p>
+</div>
+
+
+#end## end of body
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./jello.vm")
+#end

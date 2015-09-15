@@ -1,0 +1,134 @@
+{
+    "title": "jello demo",
+    "titleAffix": "jello demo",
+    "pageTitle": "页面标题",
+
+    "menus": [
+        {
+            "label": "文档",
+            "href": "/doc",
+            "children": [
+                {
+                    "label": "目录规范",
+                    "href": "/doc/standard"
+                },
+
+                {
+                    "label": "模板继承",
+                    "href": "/doc/layout"
+                },
+
+                {
+                    "label": "widget",
+                    "href": "/doc/widget"
+                },
+
+                {
+                    "label": "页面模拟",
+                    "href": "/doc/rewrite"
+                },
+
+                {
+                    "label": "数据绑定",
+                    "href": "/doc/binding"
+                }
+            ]
+        },
+        {
+            "label": "示例",
+            "href": "/examples",
+            "children": [
+                {
+                    "label": "普通列表页面",
+                    "href": "/examples/pagination"
+                },
+                {
+                    "label": "js 数据模拟",
+                    "href": "/examples/data"
+                },
+                {
+                    "label": "表单验证",
+                    "href": "/examples/form"
+                },
+                {
+                    "label": "ajax 页面",
+                    "href": "/examples/partial"
+                },
+                {
+                    "label": "SPA 单页 demo",
+                    "href": "/examples/spa"
+                }
+            ]
+        },
+
+        {
+            "label": "Jsp",
+            "href": "/jsp",
+            "children": [
+                {
+                    "label": "Jsp 语法说明",
+                    "href": "/jsp/index"
+                },
+                {
+                    "label": "jsp 模板继承",
+                    "href": "/jsp/layout"
+                },
+                {
+                    "label": "jsp widget",
+                    "href": "/jsp/widget"
+                },
+                {
+                    "label": "页面模拟",
+                    "href": "/jsp/rewrite"
+                },
+
+                {
+                    "label": "数据绑定",
+                    "href": "/jsp/binding"
+                }
+            ]
+        },
+
+        {
+            "label": "模板技巧",
+            "href": "/velocity",
+            "children": [
+                {
+                    "label": "velocity 语法",
+                    "href": "/velocity/index"
+                },
+
+                {
+                    "label": "全局变量",
+                    "href": "/velocity/variables"
+                },
+
+                {
+                    "label": "velocity tools",
+                    "href": "/velocity/tools"
+                },
+
+                {
+                    "label": "jello tools",
+                    "href": "/velocity/jello"
+                }
+            ]
+        },
+
+        {
+            "label": "后端使用",
+            "href": "/be",
+            "children": [
+                {
+                    "label": "spring 整合",
+                    "href": "/be/spring"
+                },
+
+                {
+                    "label": "全局变量",
+                    "href": "/be/variables"
+                }
+            ]
+        }
+    ]
+}

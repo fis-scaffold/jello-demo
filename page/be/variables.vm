@@ -1,0 +1,47 @@
+#set($pageTitle="Spring 全局变量")
+#extends("/page/layout/2columns-with-left-sidebar.vm")
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(4).children")
+#end
+
+#block("content")
+
+<p>在 jello 模拟环境下，是有很些全局变量可以使用，整入到后端后不一定有，如何让 spring 开发这些变量？</p>
+
+<h2>${esc.d}request</h2>
+<p>在 spring 的 xml 配置中， <code>viewResolver</code>下设置<code><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"requestContextAttribute"</span> <span class="na">value=</span><span class="s">"request"</span> <span class="nt">/&gt;</span></code></p>
+
+<h2>${esc.d}session</h2>
+<p>在 spring 的 xml 配置中， <code>viewResolver</code>下设置<code><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"exposeSessionAttributes"</span> <span class="na">value=</span><span class="s">"true"</span> <span class="nt">/&gt;</span></code></p>
+
+<h2>${esc.d}rc</h2>
+
+<p>在 spring 的 xml 配置中， <code>viewResolver</code>下设置<code><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"exposeSpringMacroHelpers"</span> <span class="na">value=</span><span class="s">"true"</span><span class="nt">/&gt;</span></code></p>
+
+<p>设置了这个后，$!{esc.d}rc 指向一个 RequestContext(名为springBindRequestContext)对象，通过他可以处理表单和验证错误信息，另外利用$!{esc.d}{rc.getMessage("user.name")}读取/WEB-INF/classes/messages.properties本地化信息</p>
+
+<h2>批量加全局变量</h2>
+<p>在 controller 往 ModelMap 可以添加变量，但是如何让所有的 controller 都加上某些全局变量？</p>
+
+<p>可以让所有的 controller 都基于某个基类， 然后在基类上，设置 ModelAttribute 变量即可。</p>
+
+<div class="highlight highlight-java"><pre><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Base</span> <span class="o">{</span>
+    <span class="nd">@Autowired</span>
+    <span class="nd">@Qualifier</span><span class="o">(</span><span class="s">"appConfig"</span><span class="o">)</span>
+    <span class="kd">protected</span> <span class="n">AppConfig</span> <span class="n">appConfig</span><span class="o">;</span>
+
+    <span class="nd">@ModelAttribute</span><span class="o">(</span><span class="s">"previewServer"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getPreviewServer</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">appConfig</span><span class="o">.</span><span class="na">getImagePreivewUrl</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>以上的例子，给所有 vm 都添加了 ${esc.d}previewServer 变量。</p>
+
+#end## end of body
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./variables.vm")
+#end

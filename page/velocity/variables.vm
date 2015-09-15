@@ -1,0 +1,40 @@
+#set($pageTitle="velocity 全局变量")
+#extends("/page/layout/2columns-with-left-sidebar.vm")
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(3).children")
+#end
+
+#block("content")
+
+为了方便开发，还需要知道 velocity 里面有哪些全局变量可以使用。
+
+<h2>\$request</h2>
+
+<p>通过它，可以知道当前页面请求，请求的参数是什么，或者知道当前请求头部是什么等等。</p>
+
+<div class="highlight highlight-velocity"><pre><span class="cp">$esc.hash$esc.hash</span><span class="c"> 请求 GET 参数 layout 是否等于 "right"</span><span class="x"></span>
+<span class="p">$</span><span class="nv">request</span><span class="p">.</span><span class="nv">getParameter</span><span class="p">(</span><span class="s2">"layout"</span><span class="p">).</span><span class="nv">equals</span><span class="p">(</span><span class="s2">"right"</span><span class="p">)</span><span class="x"></span>
+
+<span class="cp">$esc.hash$esc.hash</span><span class="c"> 是否是来源于 ajax 请求？</span><span class="x"></span>
+<span class="p">$</span><span class="nv">request</span><span class="p">.</span><span class="nv">getHeader</span><span class="p">(</span><span class="s2">"X-Requested-With"</span><span class="p">).</span><span class="nv">equals</span><span class="p">(</span><span class="s2">"XMLHttpRequest"</span><span class="p">)</span><span class="x"></span>
+</pre></div>
+
+<p>更多方法请查看<a href="http://docs.oracle.com/javaee/6/api/javax/servlet/http/HttpServletRequest.html">HttpServletRequest</a>文档。</p>
+
+<h2>\$response</h2>
+
+<p>暂没有想到用法，直接查看<a href="http://docs.oracle.com/javaee/6/api/javax/servlet/http/HttpServletResponse.html">HttpServletResponse</a>文档吧。</p>
+
+<h2>Velocity Tools</h2>
+<p>请查看<a href="$!{request.contextPath}/velocity/tools">velocity tools</a>。</p>
+<h2>\$jello</h2>
+<p>请查看<a href="$!{request.contextPath}/velocity/jello">jello tools</a>。</p>
+<h2>更多变量</h2>
+<p></p>
+
+#end## end of body
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./variables.vm")
+#end

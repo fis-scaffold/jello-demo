@@ -1,0 +1,22 @@
+body {
+    padding-top: 50px;
+}
+
+.navbar-brand.active {
+    color: #eee;
+}
+
+#middle {
+    min-height: 400px;
+}
+
+.markdown {
+    h2 {
+        padding-top: 70px;
+        margin-top: -50px;
+    }
+}
+
+@import "callout";
+@import "highlight";
+@import "modal";

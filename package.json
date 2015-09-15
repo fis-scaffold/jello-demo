@@ -1,0 +1,12 @@
+{
+  "name": "jello-demo",
+  "version": "0.1.0",
+  "description": "jello-demo",
+  "keywords": [
+    "jello-demo"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "fis3-jello": "~1.0.1"
+  }
+}

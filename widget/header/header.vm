@@ -1,0 +1,35 @@
+#if ($menus)
+
+    ## velocity 宏示例
+    #macro( renderMenus $menus $child)
+        #if( $child )
+        <ul class="dropdown-menu" role="menu">
+        #else
+        <ul class="nav navbar-nav" role="menu">
+        #end
+
+        #foreach( $menu in $menus )
+            #if( $menu.children )
+            <li class="dropdown #if( $menu.active )active#end">
+                <a href="$!{request.contextPath}$!{menu.href}" class="dropdown-toggle" data-toggle="dropdown" href="#">$!{menu.label} <span class="caret"></span></a>
+
+                #renderMenus($menu.children true)
+            </li>
+            #else
+            <li #if( $menu.active )class="active"#end>
+                <a href="$!{request.contextPath}$!{menu.href}">$!{menu.label}</a>
+            </li>
+            #end
+        #end
+
+        </ul>
+    #end
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <a class="navbar-brand #if( $currentUrl == '/' )active#end" href="$!{request.contextPath}/">Jello Demo</a>
+            #renderMenus($menus)
+        </div>
+    </div>
+#end

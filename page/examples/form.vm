@@ -1,0 +1,49 @@
+#set($pageTitle="基本表单验证")
+#extends("/page/layout/2columns-with-left-sidebar.vm")
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(1).children")
+#end
+
+#block("content")
+
+<p class="text-info">此 demo 演示了，如何快捷方便的使用第三方库。</p>
+
+<form id="nodeForm" role="form" method="POST" action="$action">
+    <div class="form-group">
+        <label class="control-label" for="input1">用户名<span class="require-note">*</span></label>
+        <input name="userName" required type="text" class="form-control" id="input1" placeholder="普通文本" />
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="input2">密码<span class="require-note">*</span></label>
+        <input data-rule-required="true" name="password" type="password" class="form-control" id="input2" placeholder="密码" />
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="input3">数字</label>
+        <input data-rule-number="true" name="number" type="text" class="form-control" id="input3" placeholder="只允许数字" />
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="input4">邮箱</label>
+        <input name="email" data-rule-email="true" type="text" class="form-control" id="input4" placeholder="邮箱地址" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">提交</button>
+</form>
+
+#script()
+require(['./form'], function(app) {
+    app({
+        selector: '#nodeForm'
+    });
+});
+#end
+
+
+#end## end of body
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./form.vm")
+#end

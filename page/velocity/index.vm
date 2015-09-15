@@ -1,0 +1,117 @@
+#set($pageTitle="velocity 语法")
+#extends("/page/layout/2columns-with-left-sidebar.vm")
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(3).children")
+#end
+
+#block("content")
+
+<p>基本的逻辑标签不在这里多说了，请查看 <a href="http://velocity.apache.org/engine/devel/user-guide.html">velocity 官方文档</a>。这里重点说一下 velocity 宏 和jello 基于 velocity 扩展的几个标签。</p>
+
+<h2>velocity 宏</h2>
+
+<p>Velocity 里面，不像 smarty 一样，可以写 PHP 函数，不过，它有它自己的机制，比如宏的定义。一些重用且复杂的渲染逻辑，可以封装成 velocity 宏来处理。</p>
+
+<h4>宏方法定义</h4>
+<div class="highlight highlight-velocity"><pre><span class="cp">#</span><span class="nf">macro</span><span class="p">(</span> <span class="nf">tablerows</span> <span class="p">$</span><span class="nv">color</span> <span class="p">$</span><span class="nv">somelist</span> <span class="p">)</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">foreach</span><span class="p">(</span> <span class="p">$</span><span class="nv">something</span> <span class="o">in</span> <span class="p">$</span><span class="nv">somelist</span> <span class="p">)</span><span class="x"></span>
+<span class="x">    &lt;tr&gt;&lt;td bgcolor=</span><span class="p">$</span><span class="nv">color</span><span class="x">&gt;</span><span class="p">$</span><span class="nv">something</span><span class="x">&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+</pre></div>
+
+<h4>宏方法使用</h4>
+
+<div class="highlight highlight-velocity"><pre><span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">greatlakes</span> <span class="o">=</span> <span class="o">[</span><span class="s2">"Superior"</span><span class="p">,</span><span class="s2">"Michigan"</span><span class="p">,</span><span class="s2">"Huron"</span><span class="p">,</span><span class="s2">"Erie"</span><span class="p">,</span><span class="s2">"Ontario"</span><span class="p">]</span> <span class="p">)</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">set</span><span class="p">(</span> <span class="p">$</span><span class="nv">color</span> <span class="o">=</span> <span class="s2">"blue"</span> <span class="p">)</span><span class="x"></span>
+<span class="x">&lt;table&gt;</span>
+<span class="x">    </span><span class="cp">#</span><span class="nf">tablerows</span><span class="p">(</span> <span class="p">$</span><span class="nv">color</span> <span class="p">$</span><span class="nv">greatlakes</span> <span class="p">)</span><span class="x"></span>
+<span class="x">&lt;/table&gt;</span>
+</pre></div>
+
+<h4>输出结果</h4>
+<div class="highlight highlight-html"><pre><span class="nt">&lt;table&gt;</span>
+    <span class="nt">&lt;tr&gt;&lt;td</span> <span class="na">bgcolor=</span><span class="s">"blue"</span><span class="nt">&gt;</span>Superior<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;&lt;td</span> <span class="na">bgcolor=</span><span class="s">"blue"</span><span class="nt">&gt;</span>Michigan<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;&lt;td</span> <span class="na">bgcolor=</span><span class="s">"blue"</span><span class="nt">&gt;</span>Huron<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;&lt;td</span> <span class="na">bgcolor=</span><span class="s">"blue"</span><span class="nt">&gt;</span>Erie<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;&lt;td</span> <span class="na">bgcolor=</span><span class="s">"blue"</span><span class="nt">&gt;</span>Ontario<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+</pre></div>
+
+<h2>扩展标签</h2>
+
+<h3>${esc.hash}require()</h3>
+<p>用来引入资源，不管是 JS 资源还是 CSS 资源，都统一通过 <code>${esc.hash}require()</code> 引入。</p>
+
+<div class="highlight highlight-velocity"><pre><span class="cp">$esc.hash$esc.hash </span><span class="c"> 引入JS脚本</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">require</span><span class="p">(</span><span class="s2">"[ns:]static/lib/dialog.js"</span><span class="p">)</span><span class="x"></span>
+
+<span class="cp">$esc.hash$esc.hash </span><span class="c">  引入样式文件</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">require</span><span class="p">(</span><span class="s2">"[ns:]static/lib/dialog.css"</span><span class="p">)</span><span class="x"></span>
+
+<span class="cp">$esc.hash$esc.hash </span><span class="c"> 引入模板文件，作用是把此模本文件的依赖（同名JS和同名CSS）引入进来。</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">require</span><span class="p">(</span><span class="s2">"[ns:]page/index.vm"</span><span class="p">)</span><span class="x"></span>
+</pre></div>
+
+<p>通过<code>${esc.hash}require()</code>只能引入存在的 <code>FIS 资源 ID</code> 如果不是 <code>FIS 资源 ID</code> 或者不存在，则不会输出任何东西，同时还会提示 warning。如果想引入一个外部 JS 或者 CSS 请改用 <code>${esc.hash}script()</code> 或者 <code>${esc.hash}style()</code></p>
+
+<div class="bs-callout bs-callout-info">
+    <h4>FIS 资源 </h4>
+    <p>
+        FIS 资源 ID 写法是  [namespace:]文件绝对路径。当项目设置了 <code>namespace</code> 的时候：<code>common:static/js/jquery.js</code>、当项目没有设置 <code>namespace</code> 的时候：<code>static/js/query.js</code>
+    </p>
+    <p>为什么要用 <code>FIS 资源 ID</code> 因为，我们的静态资源很可能是部署在 CDN 上 或者 文件名加了 md5 截，所以我们需要用 <code>FIS 资源 ID</code>标识资源，这样我们可以通过查找 jello release 出来的 map.json 表，查找出最终的存放路径。</p>
+</div>
+
+<div class="bs-callout bs-callout-success">
+    <h4>更新</h4>
+    <p>Jello 新版本已经支持基于项目的绝对路径，或者相对路径。为了方便项目间迁移。请使用 namespace 无关的路径。除非你需要跨项目引用。</p>
+
+    <p>${esc.hash}require() 新加了两个参数， ${esc.d}prefix, ${esc.d}affix。prefix 和 affix 会对应的在标签头部和尾部补充内容。如：</p>
+
+    <div class="highlight"><pre lang="velocity"><code>${esc.hash}require("/static/scss/ie.scss" "&lt;!--[if lt IE 8]&gt;" "&lt;![endif]--&gt;")
+</code></pre></div>
+</div>
+
+<h3>${esc.hash}script() &amp; ${esc.hash}style()</h3>
+<p>用来收集 js 和 css 如：</p>
+
+<div class="highlight highlight-velocity"><pre><span class="cp">$esc.hash$esc.hash </span><span class="c"> 内联脚本</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">script</span><span class="p">()</span><span class="x"></span>
+<span class="x">console.log('hello world');</span>
+<span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+
+<span class="cp">$esc.hash$esc.hash </span><span class="c"> 引入脚本</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">script</span><span class="p">(</span><span class="s2">"[namespace:]static/lib/dialog.js"</span><span class="p">)</span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+<span class="cp">$esc.hash$esc.hash </span><span class="c"> 等价与 ${esc.hash}require("[namespace:]static/lib/dialog.js");</span><span class="x"></span>
+
+<span class="cp">$esc.hash$esc.hash </span><span class="c"> 引入外部资源，非 FIS ID</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">script</span><span class="p">(</span><span class="s2">"//code.jquery.com/jquery-1.11.0.min.js"</span><span class="p">)</span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+</pre></div>
+
+<div class="bs-callout bs-callout-success">
+    <h4>更新</h4>
+    <p>${esc.h}script ${esc.h}style 同样支持 prefix 和 affix，请参考 require 中的说明。</p>
+</div>
+
+<h3>${esc.hash}html() &amp; ${esc.hash}head() &amp; ${esc.hash}body() </h3>
+
+<p>用来代替 html、head、body 标签，通过这些标签组织代码，jello 就知道把收集的 js 和 css 集中在什么地方输出了。</p>
+
+<h3>${esc.hash}uri()</h3>
+<p>把 <code>FIS 资源 ID</code> 转化成实际路径，可以跨模块。与 <code>${esc.hash}require()</code> 的区别是，这个只会简单的输出路径，而不会引入此文件。</p>
+
+<h3>${esc.hash}widget()</h3>
+<p>引入一个模板碎片文件，支持指定局部变量。更多信息请查看此处<a href="$!{request.contextPath}/doc/widget">说明</a>。</p>
+
+<h3>${esc.hash}extends() &amp; ${esc.hash}blocks() &amp; ${esc.h}parent()</h3>
+
+<p>请查看<a href="$!{request.contextPath}/doc/layout">模板继承说明</a>。</p>
+
+#end## end of body
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./index.vm")
+#end

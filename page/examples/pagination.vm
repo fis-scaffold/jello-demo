@@ -1,0 +1,62 @@
+#set($pageTitle="普通列表页面")
+#set($title="普通列表页面")
+#extends("/page/layout/2columns-with-left-sidebar.vm")
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(1).children")
+#end
+
+#block("content")
+
+<div class="fulltext-search">
+    <div class="panel panel-default">
+        <div class="panel-heading">模糊搜索</div>
+        <div class="panel-body">
+            <form class='table-form' method="GET" action="">
+            <div class="input-group">
+              <input type="text" name="search" value="$!{request.getParameter("search")}" placeholder="请输入名称" class="form-control">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">搜索</button>
+              </span>
+            </div><!-- /input-group -->
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <h3>查询结果</h3>
+
+    <ul class="pagination">
+        ## 注意这里面设置了一下 $currentUrl 是因为在 jello 环境下
+        ## 当前请求页面是 rewrite 过来的，与地址栏实际地址不相同，
+        ## 所以借助了一下 $currentUrl 通过 absolute 设置了绝对路径。
+        ## 正常情况下，是不需要设置 absolute 的。
+        #set($base = $link.absolute($currentUrl).query($request.getQueryString()))
+        #set($pages = [1, 2, 3, 4, 5])
+        #set($currentPage = "1")
+        #if ($request.getParameter("pageNum"))
+            #set($currentPage = $request.getParameter("pageNum").toString())
+        #end
+
+        #foreach ($page in $pages)
+        <li #if ($currentPage.equals("$page"))class="active"#end><a href="$!{request.contextPath}$base.set('pageNum', $page)">$page</a></li>
+        #end
+    </ul>
+
+    #if ($result.isEmpty())
+    <p class="text-warning">没有结果</p>
+    #else
+    <ul class="list-group">
+        #foreach( $item in $result )
+            <li class="list-group-item">$esc.html($item)</li>
+        #end
+    </ul>
+    #end
+</div>
+
+#end## end of body
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./pagination.vm")
+#end

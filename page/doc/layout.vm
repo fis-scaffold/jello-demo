@@ -1,0 +1,115 @@
+#set($layout = "#uri('/page/layout/2columns-with-left-sidebar.vm')")
+#set($param = $request.getParameter("layout"))
+
+#if ($param.equals("right"))
+    #set($layout = "#uri('/page/layout/2columns-with-right-sidebar.vm')")
+#end
+
+#if ($param.equals("both"))
+    #set($layout = "#uri('page/layout/3columns.vm')")
+#end
+
+#extends($layout)
+
+#block("sidebarSecondary")
+    ## 注意只里面的 with:$sidebar 意思是将当前 sidebar 变量对象中的所有属性作为 widget 里面的局部变量。
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "with:$sidebar")
+#end
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(0).children")
+#end
+
+#block("content")
+    <div class="markdown">
+        <p>模板继承思想来源于 <a href="http://www.smarty.net/inheritance">smarty</a>, 可以用来更好的复用代码。</p>
+
+        <div class="bs-callout bs-callout-warning">
+            <h4><a href="http://www.smarty.net/inheritance">Smarty 模板继承文档</a></h4>
+            <p>如果之前没有接触过模板继承，请先一定要看下这个说明。</p>
+        </div>
+
+
+        <h2 id="示例">示例</h2>
+
+        <div class="bs-callout bs-callout-info">
+            <h4>先点击示例看效果</h4>
+            <p>请切换下面这三个按钮看效果，同样的内容在不同的骨架下的效果。</p>
+            <div class="btn-group">
+                <a type="button" href="?layout=left" class="btn btn-info #if(!$param || $param.equals("left"))active#end">两栏布局 - 带左边栏</a>
+                <a type="button" href="?layout=both" class="btn btn-info  #if($param.equals("both"))active#end">三栏布局</a>
+                <a type="button" href="?layout=right" class="btn btn-info  #if($param.equals("right"))active#end">两栏布局 - 带右边栏</a>
+            </div>
+        </div>
+
+        <p>没错，模板继承可以很方便的来定义具有容器功能的模板。子模板可以选择直接填充此类骨架类模板。</p>
+
+        <h2 id="说明">说明</h2>
+
+        <p>layout.vm</p>
+        <div class="highlight highlight-velocity"><pre><span class="x">&lt;!DOCTYPE html&gt;</span>
+<span class="x">  </span><span class="cp">#</span><span class="nf">html</span><span class="p">()</span><span class="x"></span>
+
+<span class="x">  </span><span class="cp">#</span><span class="nf">head</span><span class="p">()</span><span class="x"></span>
+<span class="x">    &lt;meta charset="utf-8"/&gt;</span>
+<span class="x">    &lt;meta content="" name="description"&gt;</span>
+<span class="x">    &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;</span>
+<span class="x">    &lt;title&gt;Demo&lt;/title&gt;</span>
+<span class="x">  </span><span class="cp">#</span><span class="nf">end</span><span class="x"> </span>
+
+<span class="x">  </span><span class="cp">#</span><span class="nf">body</span><span class="p">()</span><span class="x"></span>
+<span class="x">    &lt;div id="wrapper"&gt;</span>
+<span class="x">      </span><span class="cp">#</span><span class="nf">block</span><span class="p">(</span><span class="s2">"body_content"</span><span class="p">)</span><span class="x"></span>
+<span class="x">          This is body.</span>
+<span class="x">      </span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">  </span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">end</span><span class="x"> </span>
+</pre></div>
+
+        <p>以上示例通过<code>${esc.h}block()</code> 定义了一个区域<code>body_content</code>，那么在子模板中，就可以像以下方式填充它</p>
+
+        <div class="highlight highlight-velocity"><pre><span class="cp">#</span><span class="nf">extends</span><span class="p">(</span><span class="s2">"layout.vm"</span><span class="p">)</span><span class="x"></span>
+<span class="x">    </span><span class="cp">#</span><span class="nf">block</span><span class="p">(</span><span class="s2">"body_content"</span><span class="p">)</span><span class="x"></span>
+<span class="x">    &lt;h1&gt;Hello Demo&lt;/h1&gt;</span>
+<span class="x">    </span><span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+<span class="cp">#</span><span class="nf">end</span><span class="x"></span>
+</pre></div>
+
+        <div class="bs-callout bs-callout-warning">
+            <h4>说明</h4>
+            <p>以上示例，只需关心<code>${esc.h}block()</code>和<code>${esc.h}extends()</code>标签，其他标签可以忽略</p>
+        </div>
+
+        <h2>覆盖模式</h2>
+
+        <p>默认，在子模板中同名 <code>${esc.h}block()</code> 将会覆盖掉父模板中的同名 <code>${esc.h}block()</code>，有时候，我们希望是扩充，而不是生硬的覆盖。</p>
+
+        <p>新版的 jello 扩充了一个新的 <code>directive</code> <code>${esc.h}parent()</code> 通过它可以用来引用被覆盖的block</p>
+
+        <div class="highlight highlight-velocity">
+            <pre lang="velocity"><code>${esc.h}extends("layout.vm")
+    ${esc.h}block("body_content")
+    ${esc.h}parent()
+    &lt;h1&gt;Hello Demo&lt;/h1&gt;
+    ${esc.h}end
+${esc.h}end
+</code></pre>
+        </div>
+
+        这样 body_content 的输出结果就是这样的。
+
+        <div><pre>This is body.
+
+&lt;h1&gt;Hello Demo&lt;/h1&gt;</pre>
+        </div>
+
+        <h2 id="局部变量">局部变量</h2>
+
+        <p>请直接查看 widget 中的局部变量用法，用法一样。<a href="/doc/widget#局部变量">传送门</a></p>
+    </div>
+#end
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./layout.vm")
+#end

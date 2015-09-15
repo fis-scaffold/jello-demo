@@ -1,0 +1,18 @@
+## 首页布局
+#extends("./frame.vm")
+
+    #block("body")
+        #block("header")
+            #widget("/widget/header/header.vm")
+        #end
+
+        #block("content")#end
+
+        #block("footer")
+            #widget("/widget/footer/footer.vm")
+        #end
+    #end
+
+    ## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+    #require("./front.vm")
+#end

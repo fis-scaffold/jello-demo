@@ -1,0 +1,7 @@
+## 只能判断，是否来源于 ajax
+#if ($request.getHeader("X-Requested-With").equals("XMLHttpRequest"))
+    #extends("./spa.vm")#end
+#else
+    #extends("./2columns-with-left-sidebar.vm")#end
+#end
+

@@ -1,0 +1,77 @@
+@import "compass/css3/border-radius";
+@import "compass/css3/text-shadow";
+
+.jello-toc {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    background-color: #f7f5fa;
+
+    // 通过 compass 轻松解决 css3 兼容行问题。
+    @include text-shadow(#fff 0 1px 0);
+    @include border-radius(5px);
+
+    .nav {
+        & > li > a {
+            display: block;
+            color: #716b7a;
+            padding: 5px 20px;
+        }
+
+        & > .active > a,
+        & > .active:hover > a,
+        & > .active:focus > a {
+            font-weight: bold;
+            color: #563d7c;
+            background-color: transparent;
+            border-right: 1px solid #563d7c;
+            @include border-radius(0);
+        }
+
+        .nav {
+            display: none;
+            margin-bottom: 8px;
+
+            & > li > a {
+                padding-top: 3px;
+                padding-bottom: 3px;
+                padding-left: 30px;
+                font-size: 90%;
+            }
+        }
+    }
+
+    &.affix {
+        position: static;
+    }
+}
+
+
+@media (min-width: 992px) {
+    .jello-toc{
+        &.affix {
+            position: fixed;
+            width: 213px;
+            top: 50px;
+        }
+
+        &.affix-bottom {
+            position: absolute;
+            width: 213px;
+        }
+
+        .nav > .active > ul {
+          display: block;
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .jello-toc {
+        &.affix, &.affix-bottom {
+            width: 263px;
+        }
+    }
+}

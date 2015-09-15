@@ -1,0 +1,9 @@
+{
+    "title": "js 数据模拟",
+    "pageTitle": "js 数据模拟",
+
+    "user": {
+        "name": "张三",
+        "address": "中国"
+    }
+}

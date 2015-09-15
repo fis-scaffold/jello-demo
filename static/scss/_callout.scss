@@ -1,0 +1,46 @@
+$brand-primary:         #428bca;
+$brand-success:         #5cb85c;
+$brand-info:            #5bc0de;
+$brand-warning:         #f0ad4e;
+$brand-danger:          #d9534f;
+
+@mixin bs-callout($color, $bgcolor) {
+  display: block;
+  margin: 20px 0;
+  padding: 15px 30px 15px 15px;
+  border: 1px solid;
+  border-left-width: 5px;
+  border-color: lighten($color, 25%);
+  border-left-color: $color;
+  background-color: $bgcolor;
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    color: $color;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+  code, .highlight {
+    background-color: #fff;
+  }
+}
+
+.bs-callout-primary {
+  @include bs-callout($brand-primary, lighten($brand-primary, 45%));
+}
+
+.bs-callout-danger {
+  @include bs-callout($brand-danger, lighten($brand-danger, 30%));
+}
+
+.bs-callout-warning {
+  @include bs-callout($brand-warning, lighten($brand-warning, 50%));
+}
+
+.bs-callout-info {
+  @include bs-callout($brand-info, lighten($brand-info, 40%));
+}
+
+.bs-callout-success {
+  @include bs-callout($brand-success, lighten($brand-success, 40%));
+}

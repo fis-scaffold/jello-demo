@@ -1,0 +1,56 @@
+#extends("/page/layout/front.vm")
+
+
+#block("content")
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h1>Jello <small>['dʒeləu]</small></h1>
+        <p>针对服务端为 JAVA + Velocity/jsp 的前端集成解决方案。</p>
+        <p>为优化前端开发效率而生，提供前后端开发分离、自动性能优化、模块化开发机制等功能。</p>
+        <p><a href="http://oak.baidu.com/docs/jello" class="btn btn-primary btn-lg" role="button">查看更多 &raquo;</a></p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>前后端分离</h2>
+            <p>基于 <a href="http://velocity.apache.org/">velocity</a>/jsp 模板，实现数据与页面分离</p>
+            <p>开发分离，制定数据格式便能脱离后端独立开发。基于 jello 轻松模拟各类数据。</p>
+        </div>
+        <div class="col-md-4">
+            <h2>自动性能优化</h2>
+            <p>基于配置，自动完成资源压缩，合并，优化工作。</p>
+            <p>收集 css 和 js，统一于页头和页底输出，优化性能。</p>
+        </div>
+        <div class="col-md-4">
+            <h2>模块化开发</h2>
+            <p>提供 html、css、js 模块化机制，包括 widget 组件化与 js amd 加载机制，让内容更好的拆分与复用。</p>
+            <p>可以随意拆分，无需考虑性能问题。</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>模板继承 &amp; widget 机制</h2>
+            <p>提供更好的骨架 (<a href="$!{request.contextPath}/doc/layout">layout</a>) 机制。</p>
+            <p>公用部分抽离成 widget 便于多页面间复用。</p>
+        </div>
+        <div class="col-md-4">
+            <h2>简化环境安装</h2>
+            <p>内嵌 j2ee 开发服务器，你无需再折腾 j2ee 环境搭建。直接通过 jello server start 就能开起服务，预览页面。</p>
+        </div>
+        <div class="col-md-4">
+            <h2>轻松接入 spring</h2>
+            <p>提供标准 <a href="https://github.com/fex-team/jello-spring-example">maven 示例程序</a>，拷贝几条配置便能工作。</p>
+        </div>
+    </div>
+</div>
+
+#end## end of body
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./index.vm")
+#end

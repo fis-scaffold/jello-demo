@@ -1,0 +1,37 @@
+#extends("/page/layout/2columns-with-left-sidebar.vm")
+
+#block("sidebar")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(1).children")
+#end
+
+#block("content")
+
+<p>当用 ajax 去请求一个页面的时候，往往只需要 html 片段、css、JS 部分。</p>
+
+<h2>示例</h2>
+
+
+<div class="bs-callout bs-callout-info">
+    <h4>ajax 页面</h4>
+    <p>
+        <a id="remoteBtn" class="btn btn-info" href="$!{request.contextPath}/examples/partial/form">dialog打开</a>
+        <a class="btn btn-success" target="_blank" href="$!{request.contextPath}/examples/partial/form">浏览器中打开</a>
+    </p>
+</div>
+
+
+#script()
+require(['jquery', 'libs/modal'], function($, modal) {
+    $('#remoteBtn').on('click', function() {
+        modal($('#remoteBtn').attr('href'));
+        return false;
+    });
+});
+#end
+
+
+#end## end of body
+
+## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
+#require("./partial.vm")
+#end
