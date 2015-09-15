@@ -107,5 +107,4 @@ console.log('hello world');
 
     </fis:block>
 
-    <fis:require name="./index.jsp" />
 </fis:extends>

@@ -71,5 +71,4 @@
 
     </fis:block>
 
-    <fis:require name="./rewrite.jsp" />
 </fis:extends>

@@ -72,5 +72,4 @@
 
     </fis:block>
 
-    <fis:require name="./binding.jsp" />
 </fis:extends>

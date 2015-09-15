@@ -13,6 +13,4 @@
         </fis:block>
 
     </fis:block>
-
-    <fis:require name="./front.jsp" />
 </fis:extends>

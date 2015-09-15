@@ -31,7 +31,4 @@
     // 启用 bootstrap
     require(['bootstrap']);
     #end
-
-    ## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
-    #require("./frame.vm")
 #end## end of html

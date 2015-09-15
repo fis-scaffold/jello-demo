@@ -26,6 +26,4 @@
         </fis:block>
 
     </fis:block>
-
-    <fis:require name="./2columns-with-left-sidebar.jsp" />
 </fis:extends>

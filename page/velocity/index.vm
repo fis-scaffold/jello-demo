@@ -111,7 +111,4 @@
 <p>请查看<a href="$!{request.contextPath}/doc/layout">模板继承说明</a>。</p>
 
 #end## end of body
-
-## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
-#require("./index.vm")
 #end

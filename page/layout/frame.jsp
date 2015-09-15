@@ -28,6 +28,4 @@
     // 启用 bootstrap
     require(['bootstrap']);
     </fis:script>
-
-    <fis:require name="./frame.jsp" />
 </fis:html>

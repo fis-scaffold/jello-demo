@@ -30,5 +30,4 @@
 
     </fis:block>
 
-    <fis:require name="./widget.jsp" />
 </fis:extends>

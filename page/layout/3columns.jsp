@@ -27,6 +27,4 @@
         </fis:block>
 
     </fis:block>
-
-    <fis:require name="./3columns.jsp" />
 </fis:extends>

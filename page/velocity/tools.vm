@@ -307,6 +307,4 @@ Number 5 is red and fly. I dig fly numbers.
 
 #end## end of body
 
-## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
-#require("./tools.vm")
 #end

@@ -1,20 +1,87 @@
 #set($pageTitle="spring 整合")
-#extends("page/layout/2columns-with-left-sidebar.vm")
+#extends("/page/layout/2columns-with-left-sidebar.vm")
 
 #block("sidebar")
-    #widget("widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(4).children")
+    #widget("/widget/sidebarmenus/sidebarmenus.vm" "var:menus=$menus.get(4).children")
 #end
 
 #block("content")
 
-    #script()
-    console.log('js');
-    #end
+<p>后端一般都是使用 spring 来开发，所以这里给出 spring 集成方式，其他运行模式请参考。关于 spring 整合的 <a href="https://github.com/fex-team/jello-spring-example">demo 可以看这里</a>。</p>
+
+<p>对于后端来说，只需关心前端输出的模板文件、静态资源和 map json文件。</p>
+
+<p>默认的输出路径是：</p>
+
+<ul class="task-list">
+<li>模板文件： <code>/WEB-INF/views/XX.vm</code></li>
+<li>静态资源： <code>/static/XX</code></li>
+<li>map json 文件：/WEB-INF/config/xxx-map.json</li>
+</ul>
+
+<p>为了让 velocity 能正常渲染模板，需要设置模板目录，以及将 fis 提供的自定义 diretives 启动。
+配置内容如下：</p>
+
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"velocityConfigurer"</span> <span class="na">class=</span><span class="s">"org.springframework.web.servlet.view.velocity.VelocityConfigurer"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"resourceLoaderPath"</span> <span class="na">value=</span><span class="s">"/WEB-INF/views/"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span> <span class="s">"velocityProperties"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;props&gt;</span>
+            <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">"input.encoding"</span><span class="nt">&gt;</span>utf-8<span class="nt">&lt;/prop&gt;</span>
+            <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">"output.encoding"</span><span class="nt">&gt;</span>utf-8<span class="nt">&lt;/prop&gt;</span>
+            <span class="c">&lt;!--启用 fis 提供的自定义 diretives 启动--&gt;</span>
+            <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">"userdirective"</span><span class="nt">&gt;</span>com.baidu.fis.velocity.directive.Html, com.baidu.fis.velocity.directive.Head, com.baidu.fis.velocity.directive.Body, com.baidu.fis.velocity.directive.Require, com.baidu.fis.velocity.directive.Script, com.baidu.fis.velocity.directive.Style, com.baidu.fis.velocity.directive.Uri, com.baidu.fis.velocity.directive.Widget, com.baidu.fis.velocity.directive.Block, com.baidu.fis.velocity.directive.Extends<span class="nt">&lt;/prop&gt;</span>
+        <span class="nt">&lt;/props&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</pre></div>
+
+<p>为了让 fis 自定义的 directive 能够正常读取 map.json 文件，需要添加一个 bean 初始化一下。</p>
+
+<div class="highlight highlight-xml"><pre><span class="c">&lt;!--初始 fis 配置--&gt;</span>
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"fisInit"</span> <span class="na">class=</span><span class="s">"com.baidu.fis.velocity.spring.FisBean"</span> <span class="nt">/&gt;</span>
+</pre></div>
+
+<p>默认 map json 文件是从 /WEB-INF/config 文件夹下读取的，如果有修改存放地址，则需要添加一个 fis.properties 文件到 /WEB-INF/ 目录。
+内容如下：</p>
+
+<div class="highlight highlight-ini"><pre><span class="c1"># 相对与 WEB-APP 根目录。</span>
+<span class="na">mapDir</span> <span class="o">=</span> <span class="s">/velocity/config</span>
+</pre></div>
+
+<p>fis 框架代码可以在<a href="https://github.com/fex-team/fis-velocity-tools/releases">此下载</a>。所有代码开源在 <a href="https://github.com/fex-team/fis-velocity-tools">github</a> 上。</p>
+
+
+<h2>View Resolver 推荐配置</h2>
+
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"viewResolver"</span> <span class="na">class=</span><span class="s">"org.springframework.web.servlet.view.velocity.VelocityViewResolver"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"cache"</span> <span class="na">value=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"prefix"</span> <span class="na">value=</span><span class="s">""</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"suffix"</span> <span class="na">value=</span><span class="s">".vm"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"cacheUnresolved"</span> <span class="na">value=</span><span class="s">"false"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"exposeSpringMacroHelpers"</span> <span class="na">value=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"contentType"</span> <span class="na">value=</span><span class="s">"text/html;charset=UTF-8"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"requestContextAttribute"</span> <span class="na">value=</span><span class="s">"request"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"exposeSessionAttributes"</span> <span class="na">value=</span><span class="s">"true"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"attributesMap"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;map&gt;</span>
+                <span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">"esc"</span><span class="nt">&gt;&lt;bean</span> <span class="na">class=</span><span class="s">"org.apache.velocity.tools.generic.EscapeTool"</span><span class="nt">/&gt;&lt;/entry&gt;</span>
+                <span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">"render"</span><span class="nt">&gt;&lt;bean</span> <span class="na">class=</span><span class="s">"org.apache.velocity.tools.generic.RenderTool"</span> <span class="nt">/&gt;&lt;/entry&gt;</span>
+                <span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">"link"</span><span class="nt">&gt;&lt;bean</span> <span class="na">class=</span><span class="s">"org.apache.velocity.tools.generic.LinkTool"</span> <span class="nt">/&gt;&lt;/entry&gt;</span>
+                <span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">"context"</span><span class="nt">&gt;&lt;bean</span> <span class="na">class=</span><span class="s">"org.apache.velocity.tools.generic.ContextTool"</span><span class="nt">/&gt;&lt;/entry&gt;</span>
+
+                <span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">"jello"</span><span class="nt">&gt;&lt;bean</span> <span class="na">class=</span><span class="s">"com.baidu.fis.velocity.tools.JelloTool"</span> <span class="nt">/&gt;</span> <span class="nt">&lt;/entry&gt;</span>
+            <span class="nt">&lt;/map&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+</pre></div>
+
+<div class="bs-callout bs-callout-warning">
+    <h4>注意</h4>
+    <p><code>cacheUnresolved</code>一定要设置成false，否则会影响前端分开部署。</p>
+    <p>另外这里只启用了部分 velocity tools, 其他 tools 请根据自己需求配置。</p>
+</div>
 
 #end## end of body
 
-<div id="#setabdev">
 
-## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
-#require("page/be/spring.vm")
 #end

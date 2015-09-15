@@ -74,6 +74,4 @@ redirect<span class="w"> </span>\/home$<span class="w"> </span>/page/index<span 
     <p>关于json 页面，其实可以用 jsp 页面模拟，如<a href="$!{request.contextPath}/jsp" target="_blank">示例</a>，也可以直接在预览 json 文件，只要此文件放在 test 目录下面。如<a href="$!{request.contextPath}/json" target="_blank">示例</a>。注意查看 <code>jello-demo</code> 项目下面的 test 目录和 server.conf 文件内容。</p>
 #end
 
-## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
-#require("./rewrite.vm")
 #end

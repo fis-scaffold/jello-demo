@@ -43,7 +43,6 @@
     <p>有时候 widget 是有填充需求的，实际上widget中也可以定义区块<code>\#block()</code>, 引用的时候使用<code>\#extends()</code>替代<code>\#widget()</code>，效果相同，但是具备划分区域，使用者具有填充功能。</p>
 #end
 
-## 需要依赖一下自己，否则该 vm 中依赖没法自动加载进来。
-#require("./widget.vm")
+
 
 #end
