@@ -1,39 +1,31 @@
-jello-demo
-==========
+# jello-demo
 
-Jello demo &amp; doc, you can [preview this online](http://oak.baidu.com/jello-demo/).
+## 安装 fis3
 
-## 如何使用
+```
+$ npm install fis3 -g
+```
 
-1. 安装 jello
+## 初始化
 
-    ```
-    npm install -g jello
-    ```
-2. 安装插件
+```bash
+$ mkdir demo
+$ cd demo
+$ fis3 init jello-demo
+```
 
-    ```
-    npm install -g fis-parser-marked
-    npm install -g fis-parser-utc
-    npm install -g fis-parser-sass
-    npm install -g fis-packager-depscombine
-    npm install -g fis-postprocessor-amd
-    ```
-3. git clone 下来此仓库
+## 运行 & 预览
 
-    ```
-    git clone https://github.com/2betop/jello-demo.git
-    ```
-4. 进入 jello-demo 目录后 安装 components
+```bash
+$ fis3 release
+$ fis3 server start
+```
 
-    ```
-    cd jello-demo
-    jello install
-    ```
-5. 进入当前目录后发布代码
+## 发布产品代码
 
-    ```
-    jello release
-    jello server start
-    ```
-6. 自动打开浏览器预览页面
+开启压缩和合并等等。。
+
+```bash
+$ fis3 release prod -d /path/of/your/j2ee/app
+```
+
