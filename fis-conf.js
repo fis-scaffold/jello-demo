@@ -39,3 +39,25 @@ fis.match('*.md', {
   parser: fis.plugin('marked'),
   rExt: '.html'
 });
+
+fis.media('prod')
+  .match('::package', {
+    // 关于打包配置，请参考：https://github.com/fex-team/fis3-packager-deps-pack
+    packager: fis.plugin('deps-pack', {
+      'pkg/frame.css': [
+        '/static/scss/**.css',
+        '/static/scss/**.scss',
+        '/widget/**.scss'
+      ],
+      'pkg/boot.js': [
+        'static/js/require.js', 
+        'components/jquery/jquery.js',
+        'components/bootstrap/bootstrap.js',
+        'components/bootstrap/bootstrap.js:deps' // 匹配依赖部分
+      ],
+      'pkg/app.js': [
+        'page/examples/form.js',
+        'page/examples/form.js:deps'
+      ]
+    })
+  })

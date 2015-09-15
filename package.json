@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "fis3-jello": "~1.0.2",
-    "fis3-hook-amd": "~0.1.2"
+    "fis3-hook-amd": "~0.1.2",
+    "fis3-packager-deps-pack": "~0.0.1"
   }
 }
