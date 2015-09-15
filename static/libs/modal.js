@@ -5,6 +5,7 @@
 
 require('bootstrap');
 var modalTplFn = __inline('./_modal.tmpl');
+var $ = require('jquery');
 
 // errorLevel 至少支持 danger、info、sucess、warning
 var modal = module.exports = function(url, opt) {

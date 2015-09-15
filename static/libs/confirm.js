@@ -1,6 +1,7 @@
 require('bootstrap');
 var modalTplFn = __inline('./_confirm.tmpl');
 var noop = function() {};
+var $ = require('jquery');
 var defaultOptions = {
     title: '',
     confirmed: noop,
