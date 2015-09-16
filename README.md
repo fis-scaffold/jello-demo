@@ -6,6 +6,8 @@
 $ npm install fis3 -g
 ```
 
+**fis3 版本必须 >= 3.2.1** 目前请通过 `npm install -g fis3@3.2.1` 安装。
+
 ## 初始化
 
 ```bash
