@@ -9,6 +9,8 @@
   "dependencies": {
     "fis3-jello": "~1.0.2",
     "fis3-hook-amd": "~0.1.2",
-    "fis3-packager-deps-pack": "~0.0.1"
+    "fis3-packager-deps-pack": "~0.0.1",
+    "fis-parser-utc": "0.0.2",
+    "fis-parser-marked": "0.0.6"
   }
 }
