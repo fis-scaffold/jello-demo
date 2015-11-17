@@ -75,6 +75,14 @@
     <span class="nt">&lt;/bean&gt;</span>
 </pre></div>
 
+<h2>web.xml 配置</h2>
+
+<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">listener</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">listener</span><span class="o">-</span><span class="kr">class</span><span class="o">&gt;</span><span class="nx">com</span><span class="p">.</span><span class="nx">baidu</span><span class="p">.</span><span class="nx">fis</span><span class="p">.</span><span class="nx">servlet</span><span class="p">.</span><span class="nx">MapListener</span><span class="o">&lt;</span><span class="err">/listener-class&gt;</span>
+    <span class="o">&lt;</span><span class="err">/listener&gt;</span>
+</pre></div>
+
+
 <div class="bs-callout bs-callout-warning">
     <h4>注意</h4>
     <p><code>cacheUnresolved</code>一定要设置成false，否则会影响前端分开部署。</p>
