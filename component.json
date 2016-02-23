@@ -5,7 +5,7 @@
   },
   "dependencies": [
     "jquery@^1.9.1",
-    "bootstrap",
+    "bootstrap@^3.0.0",
     "compass-mixins",
     "font-awesome",
     "jquery-ui",
