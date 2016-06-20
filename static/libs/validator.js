@@ -9,7 +9,7 @@ $.validator.setDefaults({
         var tabcontent = $(element).closest('.tab-pane');
 
         if (tabcontent.not('.active')) {
-            $('a[href=#' + tabcontent.attr('id') + ']').tab('show');
+            $('a[href="#' + tabcontent.attr('id') + '"]').tab('show');
         }
 
         $(element).closest('.form-group').addClass('has-error');
